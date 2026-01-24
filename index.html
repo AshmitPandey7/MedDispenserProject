@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | MedDispense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Poppins', sans-serif; }</style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 via-white to-blue-50 h-screen flex items-center justify-center">
+
+    <div class="bg-white/80 backdrop-blur-lg p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white">
+        <div class="text-center mb-8">
+            <div class="bg-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-300">
+                <i class="fa-solid fa-pills text-white text-3xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-slate-800 tracking-tight">MedDispense</h1>
+            <p class="text-slate-500 text-sm mt-1 font-medium">Smart Healthcare Portal</p>
+        </div>
+
+        <div class="space-y-5">
+            <div class="relative">
+                <i class="fa-solid fa-user absolute left-4 top-4 text-slate-400"></i>
+                <input id="user" type="text" placeholder="Username" class="w-full pl-12 p-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:bg-white transition outline-none">
+            </div>
+            <div class="relative">
+                <i class="fa-solid fa-lock absolute left-4 top-4 text-slate-400"></i>
+                <input id="pass" type="password" placeholder="Password" class="w-full pl-12 p-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:bg-white transition outline-none">
+            </div>
+            
+            <button onclick="login()" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-200 transform hover:-translate-y-0.5">
+                Sign In
+            </button>
+            
+            <div class="text-center mt-6">
+                <p class="text-slate-400 text-sm">New here?</p>
+                <a href="register.html" class="text-blue-600 font-bold hover:text-blue-800 transition">Create an Account</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function login() {
+            const username = document.getElementById('user').value.trim();
+            const password = document.getElementById('pass').value.trim();
+            if(!username || !password) return alert("Please fill all fields");
+
+            try {
+                const res = await fetch('http://localhost:5000/auth', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ username, password, type: 'login' })
+                });
+
+                if(res.ok) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert("Incorrect Username or Password!");
+                }
+            } catch(e) { alert("Server is offline. Run 'node server.js'"); }
+        }
+    </script>
+</body>
+</html>
