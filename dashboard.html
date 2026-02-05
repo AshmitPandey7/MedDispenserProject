@@ -2,160 +2,194 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard | MedDispense</title>
+    <title>User Portal | MedDispense</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Poppins', sans-serif; }</style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-tech { font-family: 'Orbitron', sans-serif; }
+        .circuit-bg { background-color: #0f172a; background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%); }
+        .card-glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(148, 163, 184, 0.1); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); }
+        select option { background-color: #0f172a; color: white; }
+    </style>
 </head>
-<body class="bg-slate-50 min-h-screen">
+<body class="circuit-bg min-h-screen text-white">
 
-    <nav class="bg-white px-8 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm border-b border-slate-100">
-        <div class="flex items-center gap-4">
-            <div class="bg-gradient-to-tr from-blue-600 to-blue-400 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-md">
-                <i class="fa-solid fa-heart-pulse"></i>
+    <nav class="border-b border-slate-700/50 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div class="bg-gradient-to-br from-cyan-500 to-blue-600 w-10 h-10 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.5)]">
+                    <i class="fa-solid fa-heart-pulse text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-xl font-tech tracking-wide text-cyan-400">USER PORTAL</h1>
+                    <p id="welcomeUser" class="text-xs text-slate-400 font-semibold tracking-widest uppercase">Welcome</p>
+                </div>
             </div>
-            <div>
-                <h1 class="font-bold text-lg text-slate-800 tracking-tight">MedDispense</h1>
-                <p class="text-xs text-slate-400 font-medium uppercase tracking-wide">Caregiver Console</p>
+
+            <div class="flex items-center gap-4">
+                <div class="relative">
+                    <select id="viewSelector" onchange="loadMeds()" class="bg-slate-800 border border-slate-600 text-cyan-400 text-sm rounded-lg block w-full p-2.5 font-tech uppercase tracking-wider cursor-pointer hover:bg-slate-700 transition">
+                        <option value="pending">⏳ Pending</option>
+                        <option value="taken">✅ Taken</option>
+                        <option value="skipped">❌ Skipped</option>
+                    </select>
+                </div>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 border border-red-500/30 text-red-400 rounded-lg hover:bg-red-500/10 hover:text-red-300 transition" title="Logout">
+                    <i class="fa-solid fa-power-off"></i>
+                </button>
             </div>
         </div>
-        <button onclick="window.location.href='index.html'" class="text-red-500 font-semibold text-sm hover:bg-red-50 px-5 py-2.5 rounded-xl transition flex items-center gap-2">
-            <i class="fa-solid fa-right-from-bracket"></i> Log Out
-        </button>
     </nav>
 
-    <main class="max-w-6xl mx-auto p-8">
-        
+    <main class="max-w-7xl mx-auto p-6 md:p-8">
         <header class="mb-10">
-            <h2 class="text-xl font-bold text-slate-700 mb-6">System Status</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-5 hover:shadow-md transition">
-                    <div class="bg-green-100 w-14 h-14 rounded-full flex items-center justify-center text-green-600 text-2xl">
-                        <i class="fa-solid fa-wifi"></i>
-                    </div>
-                    <div>
-                        <p class="text-slate-400 text-xs font-bold uppercase">Connectivity</p>
-                        <p class="text-green-600 font-bold text-lg flex items-center gap-2">
-                            Online <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
-                        </p>
-                    </div>
+                <div class="card-glass rounded-2xl p-6 relative overflow-hidden">
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">System Status</p>
+                    <p class="text-green-400 font-bold text-lg font-tech flex items-center gap-2">ONLINE <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span></p>
                 </div>
-                
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-5 hover:shadow-md transition">
-                    <div class="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center text-blue-600 text-2xl">
-                        <i class="fa-regular fa-clock"></i>
-                    </div>
-                    <div>
-                        <p class="text-slate-400 text-xs font-bold uppercase">Next Dispense</p>
-                        <p class="text-slate-800 font-bold text-lg">14:00 PM</p>
-                    </div>
+                <div class="card-glass rounded-2xl p-6 relative overflow-hidden">
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Next Dose</p>
+                    <p id="nextCycleDisplay" class="text-white font-bold text-lg font-tech tracking-wide">--:--</p>
                 </div>
-
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-5 hover:shadow-md transition">
-                    <div class="bg-purple-100 w-14 h-14 rounded-full flex items-center justify-center text-purple-600 text-2xl">
-                        <i class="fa-solid fa-prescription-bottle-medical"></i>
-                    </div>
-                    <div>
-                        <p class="text-slate-400 text-xs font-bold uppercase">Capacity</p>
-                        <p class="text-slate-800 font-bold text-lg">85% Full</p>
-                    </div>
+                <div class="card-glass rounded-2xl p-6 relative overflow-hidden">
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Adherence</p>
+                    <p id="capacityDisplay" class="text-white font-bold text-lg font-tech tracking-wide">0%</p>
                 </div>
             </div>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <section class="lg:col-span-1 bg-white p-8 rounded-3xl shadow-lg shadow-blue-50 border border-slate-100 h-fit">
-                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                    <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-lg flex items-center justify-center text-sm"><i class="fa-solid fa-plus"></i></span>
-                    Add Schedule
-                </h3>
-                <div class="space-y-4">
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase ml-1">Patient Name</label>
-                        <input id="pName" type="text" placeholder="e.g. John Doe" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-400 outline-none transition mt-1">
+            <section class="lg:col-span-1">
+                <div class="card-glass p-8 rounded-3xl border border-slate-700/50 h-full">
+                    <h3 class="text-lg font-bold font-tech text-white mb-6 flex items-center gap-2"><i class="fa-solid fa-clock text-cyan-400"></i> NEW REMINDER</h3>
+                    <div class="space-y-5">
+                        <div class="group">
+                            <label class="text-xs font-bold text-cyan-500 uppercase ml-1 mb-1 block">Medication Name</label>
+                            <input id="mName" type="text" placeholder="e.g. Vitamin C" class="w-full p-4 bg-slate-900/80 border border-slate-700 rounded-xl text-white outline-none focus:border-cyan-500 transition">
+                        </div>
+                        <div class="group">
+                            <label class="text-xs font-bold text-cyan-500 uppercase ml-1 mb-1 block">Time</label>
+                            <input id="mTime" type="time" class="w-full p-4 bg-slate-900/80 border border-slate-700 rounded-xl text-white outline-none focus:border-cyan-500 transition [color-scheme:dark]">
+                        </div>
+                        <button id="mainBtn" onclick="saveMed()" class="w-full mt-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-tech py-4 rounded-xl shadow-lg hover:scale-[1.02] transition">ADD SCHEDULE</button>
+                        <button id="cancelBtn" onclick="resetForm()" class="hidden w-full bg-slate-700 text-slate-300 font-bold py-3 rounded-xl text-xs uppercase tracking-widest">Cancel Edit</button>
                     </div>
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase ml-1">Medicine</label>
-                        <input id="mName" type="text" placeholder="e.g. Paracetamol" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-400 outline-none transition mt-1">
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase ml-1">Time</label>
-                        <input id="mTime" type="time" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-400 outline-none transition mt-1">
-                    </div>
-                    <button onclick="saveMed()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-200 mt-2">
-                        Sync to Dispenser
-                    </button>
                 </div>
             </section>
 
             <section class="lg:col-span-2">
-                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                    <span class="bg-slate-200 text-slate-600 w-8 h-8 rounded-lg flex items-center justify-center text-sm"><i class="fa-solid fa-list-ul"></i></span>
-                    Active Schedules
-                </h3>
-                <div id="list" class="space-y-4">
-                    </div>
+                <div class="card-glass p-8 rounded-3xl border border-slate-700/50 min-h-[500px]">
+                    <h3 id="listTitle" class="text-lg font-bold font-tech text-white mb-6">MY SCHEDULE</h3>
+                    <div id="list" class="space-y-4"></div>
+                </div>
             </section>
         </div>
     </main>
 
     <script>
         const API = "http://localhost:5000";
+        const currentUser = localStorage.getItem('currentUser') || 'Guest';
+        let currentEditId = null;
+
+        document.getElementById('welcomeUser').innerText = "Logged in as: " + currentUser;
 
         async function loadMeds() {
             try {
-                const res = await fetch(`${API}/data`);
+                // Fetch data for THIS user only
+                const res = await fetch(`${API}/data?user=${currentUser}`);
                 const data = await res.json();
-                const list = document.getElementById('list');
                 
-                if(data.length === 0) {
-                    list.innerHTML = `
-                        <div class="flex flex-col items-center justify-center p-10 bg-white rounded-3xl border border-dashed border-slate-300">
-                            <i class="fa-solid fa-clipboard-list text-4xl text-slate-200 mb-3"></i>
-                            <p class="text-slate-400 font-medium">No schedules active.</p>
-                        </div>`;
-                    return;
-                }
+                const view = document.getElementById('viewSelector').value;
+                const list = document.getElementById('list');
+                const title = document.getElementById('listTitle');
 
-                list.innerHTML = data.map(item => `
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition flex justify-between items-center group">
-                        <div class="flex items-center gap-4">
-                            <div class="bg-blue-50 text-blue-600 w-12 h-12 rounded-full flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
+                // Update Title Icon
+                if(view === 'taken') title.innerHTML = `<i class="fa-solid fa-check-circle text-green-400"></i> COMPLETED`;
+                else if(view === 'skipped') title.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-400"></i> SKIPPED`;
+                else title.innerHTML = `<i class="fa-solid fa-hourglass-half text-purple-400"></i> UPCOMING`;
+
+                // Filter & Sort
+                const filtered = data.filter(item => (item.status || 'pending') === view);
+                filtered.sort((a, b) => a.time.localeCompare(b.time));
+
+                if(filtered.length === 0) {
+                    list.innerHTML = `<div class="text-center py-12 text-slate-500 font-tech uppercase tracking-widest">No Records Found</div>`;
+                } else {
+                    list.innerHTML = filtered.map(item => `
+                        <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 flex justify-between items-center group shadow-lg">
                             <div>
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wide">Patient: ${item.patient}</p>
-                                <h4 class="text-lg font-bold text-slate-800">${item.medicine}</h4>
+                                <h4 class="text-xl font-bold text-white font-tech">${item.medicine}</h4>
+                                <span class="text-cyan-400 font-mono text-lg">${item.time}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                ${view === 'pending' ? `
+                                    <button onclick="setStatus(${item.id}, 'taken')" class="w-10 h-10 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500 hover:text-white transition flex items-center justify-center"><i class="fa-solid fa-check"></i></button>
+                                    <button onclick="setStatus(${item.id}, 'skipped')" class="w-10 h-10 rounded-lg bg-orange-500/20 text-orange-400 hover:bg-orange-500 hover:text-white transition flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+                                    <button onclick="startEdit(${item.id}, '${item.medicine}', '${item.time}')" class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500 hover:text-white transition flex items-center justify-center"><i class="fa-solid fa-pen"></i></button>
+                                    <button onclick="deleteMed(${item.id})" class="w-10 h-10 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition flex items-center justify-center"><i class="fa-solid fa-trash"></i></button>
+                                ` : `<button onclick="setStatus(${item.id}, 'pending')" class="px-3 py-1 bg-slate-700 rounded text-xs text-slate-300 hover:bg-slate-600">Undo Status</button>`}
                             </div>
                         </div>
-                        <div class="text-right">
-                            <span class="bg-slate-100 text-slate-600 px-4 py-2 rounded-lg font-mono font-bold text-lg group-hover:bg-blue-600 group-hover:text-white transition">
-                                ${item.time}
-                            </span>
-                        </div>
-                    </div>
-                `).join('');
+                    `).join('');
+                }
+                updateStats(data);
             } catch(e) { console.error(e); }
         }
 
         async function saveMed() {
-            const p = document.getElementById('pName').value;
             const m = document.getElementById('mName').value;
             const t = document.getElementById('mTime').value;
+            if(!m || !t) return alert("Fill all fields");
 
-            if(!p || !m || !t) return alert("Fill all fields");
+            const payload = { username: currentUser, patient: currentUser, medicine: m, time: t };
 
-            await fetch(`${API}/save`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ patient: p, medicine: m, time: t })
-            });
-            
-            document.getElementById('pName').value = '';
+            if (currentEditId) {
+                await fetch(`${API}/update/${currentEditId}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+                resetForm();
+            } else {
+                await fetch(`${API}/save`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+            }
             document.getElementById('mName').value = '';
             loadMeds();
+        }
+
+        async function setStatus(id, s) { await fetch(`${API}/status/${id}`, {method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({status:s})}); loadMeds(); }
+        async function deleteMed(id) { if(confirm("Delete this schedule?")) { await fetch(`${API}/delete/${id}`, {method:'DELETE'}); loadMeds(); } }
+        
+        function startEdit(id, medicine, time) {
+            currentEditId = id;
+            document.getElementById('mName').value = medicine;
+            document.getElementById('mTime').value = time;
+            document.getElementById('mainBtn').innerText = "UPDATE SCHEDULE";
+            document.getElementById('cancelBtn').classList.remove('hidden');
+        }
+        function resetForm() {
+            currentEditId = null;
+            document.getElementById('mName').value = '';
+            document.getElementById('mTime').value = '';
+            document.getElementById('mainBtn').innerText = "ADD SCHEDULE";
+            document.getElementById('cancelBtn').classList.add('hidden');
+        }
+
+        function updateStats(data) {
+            const taken = data.filter(i => i.status === 'taken').length;
+            const total = data.length;
+            document.getElementById('capacityDisplay').innerText = total ? Math.round((taken/total)*100)+"%" : "0%";
+            
+            // Next Dose Calculation
+            const now = new Date();
+            const nowMins = now.getHours() * 60 + now.getMinutes();
+            let next = data.filter(i => (!i.status || i.status === 'pending')).map(i => {
+                const [h,m] = i.time.split(':').map(Number);
+                return { t: i.time, m: h*60+m };
+            }).filter(i => i.m > nowMins).sort((a,b) => a.m - b.m);
+
+            if(next.length > 0) document.getElementById('nextCycleDisplay').innerText = next[0].t;
+            else document.getElementById('nextCycleDisplay').innerText = "DONE";
         }
 
         loadMeds();
